@@ -113,8 +113,6 @@ jobs:
         run: |
           cd backend
           export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
-          railway login --browserless
-          railway link
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
