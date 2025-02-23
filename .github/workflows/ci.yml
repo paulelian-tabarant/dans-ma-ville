@@ -105,11 +105,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug Secrets
-        run: echo "RAILWAY_TOKEN is set"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
 
@@ -118,6 +113,7 @@ jobs:
         run: |
           cd backend
           export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
+          railway login --token $RAILWAY_TOKEN
           railway link
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
