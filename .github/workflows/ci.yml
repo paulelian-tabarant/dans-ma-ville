@@ -117,6 +117,7 @@ jobs:
         id: deploy
         run: |
           cd backend
+          export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
           railway link
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
