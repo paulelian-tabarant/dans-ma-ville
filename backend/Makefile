@@ -14,6 +14,9 @@ lint:
 type-check:
 	mypy src
 
+test:
+	pytest -v
+
 start/dev:
 	uvicorn src.main:app --reload
 
