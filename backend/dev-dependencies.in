@@ -1,4 +1,6 @@
 -r dependencies.in
 pytest
+pytest-asyncio
 ruff
 mypy
+httpx
