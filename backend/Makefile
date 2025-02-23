@@ -1,10 +1,10 @@
 install:
 	pip install -r dependencies.lock
 
-install-dev:
+install/dev:
 	pip install -r dev-dependencies.lock
 
-lock-deps:
+update:
 	pip-compile --generate-hashes --output-file=dependencies.lock dependencies.in
 	pip-compile --generate-hashes --output-file=dev-dependencies.lock dev-dependencies.in
 
@@ -14,5 +14,8 @@ lint:
 type-check:
 	mypy src
 
-start-dev:
+start/dev:
 	uvicorn src.main:app --reload
+
+start:
+	uvicorn src.main:app
