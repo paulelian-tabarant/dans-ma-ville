@@ -12,8 +12,8 @@ warn_unreachable = true
 strict_equality = true
 
 [tool.ruff]
-select = ["E", "F", "B", "I", "N", "UP", "PL", "RUF"]
-ignore = []
+lint.select = ["E", "F", "B", "I", "N", "UP", "PL", "RUF"]
+lint.ignore = []
 target-version = "py311"
 src = ["src"]
 line-length = 88
