@@ -21,22 +21,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Installer Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
 
-      - name: Install dependencies
+      - name: Installer les dépendances
         run: |
           python -m pip install --upgrade pip
           make install-dev
 
-      - name: Lint with ruff
-        run: ruff check src
+      - name: Lancer le lint
+        run: make lint
 
-      - name: Type check with mypy
-        run: mypy src
+      - name: Lancer le type check
+        run: make type-check
 
-      - name: Run tests
+      - name: Lancer les tests
         run: pytest -v
