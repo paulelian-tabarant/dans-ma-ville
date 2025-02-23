@@ -107,16 +107,11 @@ jobs:
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
 
-      - name: Login to Railway
-        run: railway login
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
       - name: Link and deploy
         id: deploy
         run: |
           cd backend
-          railway link
+          railway link ${{ secrets.RAILWAY_PROJECT_ID }}
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
