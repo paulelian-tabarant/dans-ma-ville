@@ -7,3 +7,6 @@ install-dev-deps:
 lock-deps:
 	pip-compile --generate-hashes --output-file=dependencies.lock dependencies.in
 	pip-compile --generate-hashes --output-file=dev-dependencies.lock dev-dependencies.in
+
+start-dev:
+	uvicorn src.main:app --reload

@@ -1,3 +1,4 @@
 /.idea/
 /backend/.idea/
 *.iml
+/backend/src/main.egg-info/
