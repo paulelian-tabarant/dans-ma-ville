@@ -1,7 +1,7 @@
-install-deps:
+install:
 	pip install -r dependencies.lock
 
-install-dev-deps:
+install-dev:
 	pip install -r dev-dependencies.lock
 
 lock-deps:
