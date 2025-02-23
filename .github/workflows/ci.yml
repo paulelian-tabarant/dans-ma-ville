@@ -50,6 +50,29 @@ jobs:
       - name: Type check
         run: make type-check
 
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          make install/dev
+      - name: Run the app
+        run: |
+          make start &
+          sleep 5
+          curl -f http://127.0.0.1:8000/health || (echo "App failed to start" && exit 1)
+          pkill -f "uvicorn"
+
   test:
     runs-on: ubuntu-latest
     defaults:
