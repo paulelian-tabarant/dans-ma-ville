@@ -1,0 +1,4 @@
+-r dependencies.in
+pytest
+ruff
+mypy
