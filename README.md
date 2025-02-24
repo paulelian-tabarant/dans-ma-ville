@@ -1,12 +1,34 @@
-# dans-ma-ville
+# Dans ma ville
 
-## Démarrer sur le backend
+## Démarrer l'API
 
-- Installer un environnement virtuel Python
-- Activer l'environnement virtuel
-- Installer les dépendances (ne lancer que install)
-- Lancer le serveur
+Installer un environnement virtuel Python
 
-### Mettre à jour les dépendances
+```bash
+python3 -m venv backend/venv
+```
 
-- Lancer la tâche de lock des dépendances
+Activer l'environnement virtuel
+
+```bash
+source backend/venv/bin/activate
+```
+
+Installer les dépendances
+
+```bash
+cd backend
+make install/dev
+```
+
+Lancer le serveur
+
+```bash
+make start
+```
+
+## Mettre à jour les dépendances
+
+```bash
+make update
+```
