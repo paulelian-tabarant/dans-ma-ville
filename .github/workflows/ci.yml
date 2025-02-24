@@ -112,6 +112,27 @@ jobs:
         id: deploy
         run: |
           cd backend
-          railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
+          
+          #!/bin/bash
+          
+          retry_command() {
+            local retries=$1
+            shift
+            local count=0
+            until "$@"; do
+              exit=$?
+              count=$((count + 1))
+              if [ $count -lt $retries ]; then
+                echo "Attempt $count/$retries failed. Retrying in $((count * 2)) seconds..."
+                sleep $((count * 2))
+              else
+                echo "Attempt $count/$retries failed. No more retries left."
+                return $exit
+              fi
+            done
+            return 0
+          }
+          
+          retry_command 5 railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
