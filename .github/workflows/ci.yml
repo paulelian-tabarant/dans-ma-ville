@@ -114,5 +114,6 @@ jobs:
           cd backend
           export RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
+          sleep 20
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
