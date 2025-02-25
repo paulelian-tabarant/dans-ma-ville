@@ -22,3 +22,9 @@ start/dev:
 
 start:
 	uvicorn src.main:app --host 0.0.0.0
+
+build/docker:
+	docker build -t dans-ma-ville-backend .
+
+start/docker:
+	docker run -p 8000:8000 dans-ma-ville-backend
