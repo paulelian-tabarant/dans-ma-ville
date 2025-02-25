@@ -14,6 +14,6 @@ COPY . .
 ENV PORT=8000
 ENV HOST=0.0.0.0
 
-EXPOSE 8000
+EXPOSE ${PORT}
 
 CMD ["make", "start"]

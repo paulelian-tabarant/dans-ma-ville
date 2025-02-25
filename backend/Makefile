@@ -21,7 +21,7 @@ start/dev:
 	uvicorn src.main:app --reload
 
 start:
-	uvicorn src.main:app --host 0.0.0.0
+	uvicorn src.main:app --host $(HOST) --port $(PORT)
 
 build/docker:
 	docker build -t dans-ma-ville-backend .
