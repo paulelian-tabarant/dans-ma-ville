@@ -1,3 +1,6 @@
+venv:
+	source venv/bin/activate
+
 install:
 	pip install -r dependencies.lock
 

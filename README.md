@@ -2,22 +2,25 @@
 
 ## Démarrer l'API
 
+```bash
+cd backend
+```
+
 Installer un environnement virtuel Python
 
 ```bash
-python3 -m venv backend/venv
+python3 -m venv venv
 ```
 
 Activer l'environnement virtuel
 
 ```bash
-source backend/venv/bin/activate
+source venv/bin/activate
 ```
 
 Installer les dépendances
 
 ```bash
-cd backend
 make install/dev
 ```
 
