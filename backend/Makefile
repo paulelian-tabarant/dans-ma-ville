@@ -8,8 +8,8 @@ install/dev:
 	pip install -r dev-dependencies.lock
 
 update:
-	pip-compile --generate-hashes --output-file=dependencies.lock dependencies.in
-	pip-compile --generate-hashes --output-file=dev-dependencies.lock dev-dependencies.in
+	pip-compile --upgrade --generate-hashes --output-file=dependencies.lock --no-annotate dependencies.in
+	pip-compile --upgrade --generate-hashes --output-file=dev-dependencies.lock --no-annotate dev-dependencies.in
 
 lint:
 	ruff check src
