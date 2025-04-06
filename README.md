@@ -9,13 +9,13 @@ cd backend
 Installer un environnement virtuel Python
 
 ```bash
-python3 -m venv venv
+python3 -m venv [nom choisi pour l'environnement]
 ```
 
 Activer l'environnement virtuel
 
 ```bash
-source venv/bin/activate
+source [nom choisi pour l'environnement]/bin/activate
 ```
 
 Installer les dépendances
