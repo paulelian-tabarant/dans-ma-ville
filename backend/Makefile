@@ -1,6 +1,3 @@
-venv:
-	source venv/bin/activate
-
 install:
 	pip install -r dependencies.lock
 
@@ -11,11 +8,12 @@ update:
 	pip-compile --upgrade --generate-hashes --output-file=dependencies.lock --no-annotate dependencies.in
 	pip-compile --upgrade --generate-hashes --output-file=dev-dependencies.lock --no-annotate dev-dependencies.in
 
+compile:
+	python -m compileall .
+	mypy src
+
 lint:
 	ruff check src
-
-type-check:
-	mypy src
 
 test:
 	pytest -v

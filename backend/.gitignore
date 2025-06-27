@@ -1,2 +1,5 @@
 src/main.egg-info/
 __pycache__
+*.iml
+.idea
+.venv
