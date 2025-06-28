@@ -15,6 +15,9 @@ compile:
 lint:
 	ruff check src
 
+lint/fix:
+	ruff format
+
 test:
 	pytest -v
 
