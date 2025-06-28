@@ -139,13 +139,3 @@ jobs:
           retry_command 5 railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-      - name: Display deployment URL in job summary
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          # Get the public domain from Railway
-          DEPLOY_URL="https://$(railway domain)"
-          echo "🚀 Deployed to: $DEPLOY_URL
-          echo "## 🚀 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
-          echo "**Application URL:** $DEPLOY_URL" >> $GITHUB_STEP_SUMMARY
