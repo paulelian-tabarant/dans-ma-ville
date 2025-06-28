@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class ErrorResponseBody(BaseModel):
+class ErreurValidationResponseBody(BaseModel):
     detail: list[str]
