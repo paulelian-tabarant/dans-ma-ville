@@ -24,4 +24,10 @@ async def health_check() -> dict[str, str]:
 async def validation_exception_handler(
         _: Request, error: RequestValidationError
 ) -> None:
-    raise HTTPException(status_code=400, detail="Bad Request")
+    messages = list(map(lambda erreur: convertir_en_message(erreur), error.errors()))
+
+    raise HTTPException(status_code=400, detail=messages)
+
+
+def convertir_en_message(erreur: dict[str, str]) -> str:
+    return f"{erreur['msg']}: {erreur['loc'][1]}"
