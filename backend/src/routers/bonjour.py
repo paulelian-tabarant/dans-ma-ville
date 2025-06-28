@@ -17,10 +17,10 @@ class BonjourResponseBody(BaseModel):
     message: str
 
 
-@router.post("/",
-             response_model=BonjourResponseBody,
-             responses={
-                 400: {"model": ErreurResponseBody}
-             })
+@router.post(
+    "/",
+    response_model=BonjourResponseBody,
+    responses={400: {"model": ErreurResponseBody}},
+)
 async def post_bonjour(personne: BonjourRequestBody) -> BonjourResponseBody:
     return BonjourResponseBody(message="Bonjour, " + personne.prenom + " !")
