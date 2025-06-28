@@ -16,7 +16,7 @@ lint:
 	ruff check src
 
 lint/fix:
-	ruff format
+	ruff check src --fix
 
 test:
 	pytest -v

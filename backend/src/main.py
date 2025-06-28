@@ -5,10 +5,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI
-
-from routers import bonjour
-from errors.error_handlers import validation_error_handler
 from fastapi.exceptions import RequestValidationError
+
+from errors.error_handlers import validation_error_handler
+from routers import bonjour
 
 app = FastAPI(title="Dans ma ville")
 app.include_router(bonjour.router)
