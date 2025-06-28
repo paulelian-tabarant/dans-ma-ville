@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
+from starlette.requests import Request
 
 from routers import bonjour
 
@@ -9,3 +11,8 @@ app.include_router(bonjour.router)
 @app.get("/health")
 async def health_check() -> dict[str, str]:
     return {"status": "healthy"}
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, error: RequestValidationError):
+    raise HTTPException(status_code=400, detail=error.errors())
