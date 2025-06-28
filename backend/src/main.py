@@ -22,6 +22,6 @@ async def health_check() -> dict[str, str]:
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(
-    _: Request, error: RequestValidationError
+        _: Request, error: RequestValidationError
 ) -> None:
-    raise HTTPException(status_code=400, detail=error.errors())
+    raise HTTPException(status_code=400, detail="Bad Request")
