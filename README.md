@@ -37,3 +37,9 @@ make start
 ```bash
 make update
 ```
+
+## Déployer l'API
+
+L'API se déploie à chaque merge sur la branche `main`.
+
+Pour tester le déploiement depuis une *pull request*, lui ajouter le tag `deploy-preview`.
