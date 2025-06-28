@@ -1,20 +1,18 @@
 import os
 import sys
 
-from fastapi.exceptions import RequestValidationError
-
-from errors.error_handlers import validation_exception_handler
-
 # Nécessaire pour que la racine du projet puisse être résolue en termes d'imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI
 
 from routers import bonjour
+from errors.error_handlers import validation_error_handler
+from fastapi.exceptions import RequestValidationError
 
 app = FastAPI(title="Dans ma ville")
 app.include_router(bonjour.router)
-app.exception_handler(RequestValidationError)(validation_exception_handler)
+app.exception_handler(RequestValidationError)(validation_error_handler)
 
 
 @app.get("/health")

@@ -3,7 +3,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 
-async def validation_exception_handler(
+async def validation_error_handler(
         _: Request, error: RequestValidationError
 ) -> JSONResponse:
     messages = list(map(lambda erreur: convertir_en_message(erreur), error.errors()))
