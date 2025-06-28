@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from routers.dtos.error_response_body import ErreurValidationResponseBody
+from errors.error_response_body import ErreurResponseBody
 
 router = APIRouter(
     prefix="/bonjour",
@@ -20,7 +20,7 @@ class BonjourResponseBody(BaseModel):
 @router.post("/",
              response_model=BonjourResponseBody,
              responses={
-                 400: {"model": ErreurValidationResponseBody}
+                 400: {"model": ErreurResponseBody}
              })
 async def post_bonjour(personne: BonjourRequestBody) -> BonjourResponseBody:
     return BonjourResponseBody(message="Bonjour, " + personne.prenom + " !")

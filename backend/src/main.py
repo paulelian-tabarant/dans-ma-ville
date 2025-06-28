@@ -3,7 +3,7 @@ import sys
 
 from fastapi.exceptions import RequestValidationError
 
-from exception_handler import validation_exception_handler
+from errors.error_handlers import validation_exception_handler
 
 # Nécessaire pour que la racine du projet puisse être résolue en termes d'imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
