@@ -1,0 +1,109 @@
+name: CI/CD
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/ci.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-backend-dependencies
+      - name: Lint with ruff
+        run: make lint
+
+  compile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-backend-dependencies
+      - name: Check code syntax and typing
+        run: make compile
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-backend-dependencies
+      - name: Run the app
+        run: |
+          make start &
+          sleep 5
+          curl -f http://127.0.0.1:8000/health || (echo "App failed to start" && exit 1)
+          pkill -f "uvicorn"
+        env:
+          PORT: 8000
+          HOST: 0.0.0.0
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-backend-dependencies
+      - name: Run tests
+        run: make test
+
+
+  deploy:
+    needs: [ lint, compile, build, test ]
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy-preview'))
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: curl -fsSL https://railway.app/install.sh | sh
+
+      - name: Link and deploy
+        id: deploy
+        run: |
+          cd backend
+          
+          #!/bin/bash
+          
+          retry_command() {
+            local retries=$1
+            shift
+            local count=0
+            until "$@"; do
+              exit=$?
+              count=$((count + 1))
+              if [ $count -lt $retries ]; then
+                echo "Attempt $count/$retries failed. Retrying in $((count * 2)) seconds..."
+                sleep $((count * 2))
+              else
+                echo "Attempt $count/$retries failed. No more retries left."
+                return $exit
+              fi
+            done
+            return 0
+          }
+          
+          retry_command 5 railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
