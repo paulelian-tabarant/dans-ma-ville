@@ -19,7 +19,7 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: '.github/actions/setup-backend-dependencies'
+      - uses: ./.github/actions/setup-backend-dependencies
       - name: Lint with ruff
         run: make lint
 
@@ -30,7 +30,7 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: '.github/actions/setup-backend-dependencies'
+      - uses: ./.github/actions/setup-backend-dependencies
       - name: Check code syntax and typing
         run: make compile
 
@@ -41,7 +41,7 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: '.github/actions/setup-backend-dependencies'
+      - uses: ./.github/actions/setup-backend-dependencies
       - name: Run the app
         run: |
           make start &
@@ -59,7 +59,7 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: '.github/actions/setup-backend-dependencies'
+      - uses: ./.github/actions/setup-backend-dependencies
       - name: Run tests
         run: make test
 
