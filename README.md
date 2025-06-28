@@ -6,25 +6,27 @@
 cd backend
 ```
 
-Installer un environnement virtuel Python
+### Créer un environnement virtuel Python
 
 ```bash
 python3 -m venv [nom choisi pour l'environnement]
 ```
 
-Activer l'environnement virtuel
+Le nom de dossier `.venv` est déjà exclu du tracking git. Il est conseillé de choisir ce nom-ci.
+
+### Basculer sur l'environnement virtuel
 
 ```bash
 source [nom choisi pour l'environnement]/bin/activate
 ```
 
-Installer les dépendances
+### Installer les dépendances
 
 ```bash
 make install/dev
 ```
 
-Lancer le serveur
+### Lancer le serveur
 
 ```bash
 make start
