@@ -1,4 +1,4 @@
-import {describe, expect, it} from "vitest";
+import {describe, expect, it, vi} from "vitest";
 import {render, waitFor} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 import {http, HttpResponse} from "msw";
@@ -8,11 +8,13 @@ import {server} from "./mocks/server";
 describe('App', () => {
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
-        server.use(http.post('bonjour', () => {
+        const requestSpy = vi.fn()
+        server.use(http.post('bonjour', ({request}) => {
+            requestSpy(request.json())
             return new HttpResponse({message: `Bonjour, ${prenom} !`})
         }))
 
-        const {getByLabelText, getByRole, getByText} = render(<App/>)
+        const {getByLabelText, getByRole} = render(<App/>)
 
         const champPrenom = getByLabelText("Entre ici ton prénom :")
         const user = userEvent.setup()
@@ -21,7 +23,7 @@ describe('App', () => {
         await user.click(getByRole('submit', {name: 'Envoyer'}))
 
         await waitFor(() => {
-            expect(getByText("Bonjour, Jean !")).toBeDefined()
+            expect(requestSpy).toHaveBeenCalledWith({prenom})
         })
     });
 
