@@ -8,6 +8,7 @@ import Bonjour from "../src/components/Bonjour.tsx";
 describe('Bonjour', () => {
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
+
         const requestSpy = vi.fn()
         server.use(http.post('bonjour', ({request}) => {
             requestSpy(request.json())
