@@ -7,6 +7,7 @@
 - python3
 - direnv
 - make
+- un démon Docker, si besoin de construire les images / lancer les conteneurs en local
 
 ### Installation du projet
 
