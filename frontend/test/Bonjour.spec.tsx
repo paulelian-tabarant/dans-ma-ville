@@ -2,10 +2,10 @@ import {describe, expect, it, vi} from "vitest";
 import {render, waitFor} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 import {http, HttpResponse} from "msw";
-import App from "../src/App";
 import {server} from "./mocks/server";
+import Bonjour from "../src/components/Bonjour.tsx";
 
-describe('App', () => {
+describe('Bonjour', () => {
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
         const requestSpy = vi.fn()
@@ -14,7 +14,7 @@ describe('App', () => {
             return new HttpResponse({message: `Bonjour, ${prenom} !`})
         }))
 
-        const {getByLabelText, getByRole} = render(<App/>)
+        const {getByLabelText, getByRole} = render(<Bonjour/>)
 
         const champPrenom = getByLabelText("Entre ici ton prénom :")
         const user = userEvent.setup()
