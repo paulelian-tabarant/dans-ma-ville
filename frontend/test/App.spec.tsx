@@ -1,9 +1,9 @@
 import {describe, expect, it} from "vitest";
 import {render, waitFor} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
-import {server} from './mocks/server'
 import {http, HttpResponse} from "msw";
 import App from "../src/App";
+import {server} from "./mocks/server";
 
 describe('App', () => {
     it("doit envoyer le nom saisi", async () => {
@@ -12,7 +12,7 @@ describe('App', () => {
             return new HttpResponse({message: `Bonjour, ${prenom} !`})
         }))
 
-        const {getByLabelText, getByRole, getByText} = render(<App></App>)
+        const {getByLabelText, getByRole, getByText} = render(<App/>)
 
         const champPrenom = getByLabelText("Entre ici ton prénom :")
         const user = userEvent.setup()
