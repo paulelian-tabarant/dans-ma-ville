@@ -1,7 +1,6 @@
 import './App.css'
-import type {ReactElement} from "react";
 
-function App(): ReactElement {
+function App() {
     return (
         <h1>Hello, Vite</h1>
     )
