@@ -11,37 +11,41 @@
 
 ### Installation du projet
 
-Activer direnv dans le package `backend` pour activer automatiquement l'environnement virtuel Python à l'intérieur
+Créer un environnement virtuel Python pour y stocker les dépendances backend
 
-```bash
-python3 -m venv .venv
+```shell
 cd backend
+python3 -m venv .venv
+```
+
+Utiliser `direnv` pour activer automatiquement l'environnement virtuel Python lorsque l'on navigue dans le
+dossier `backend` depuis un terminal
+
+```shell
 direnv allow
 ```
 
-L'environnement virtuel devrait automatiquement être chargé.
-
 ## Backend
 
-```bash
+```shell
 cd backend
 ```
 
 ### Installer les dépendances
 
-```bash
+```shell
 make install/dev
 ```
 
 ### Lancer le serveur
 
-```bash
-make start
+```shell
+make dev
 ```
 
 ## Mettre à jour les dépendances
 
-```bash
+```shell
 make update
 ```
 

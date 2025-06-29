@@ -21,7 +21,7 @@ lint/fix:
 test:
 	pytest -v
 
-start/dev:
+dev:
 	uvicorn src.main:app --reload
 
 start:
