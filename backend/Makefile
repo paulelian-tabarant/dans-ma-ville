@@ -9,7 +9,7 @@ update:
 	pip-compile --upgrade --generate-hashes --output-file=dev-dependencies.lock --no-annotate dev-dependencies.in
 
 compile:
-	python -m compileall .
+	python -m compileall -q .
 	mypy src
 
 lint:

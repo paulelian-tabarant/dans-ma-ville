@@ -1,23 +1,30 @@
 # Dans ma ville
 
-## Démarrer l'API
+## Prérequis
+
+### Packages
+
+- python3
+- direnv
+- make
+- un démon Docker, si besoin de construire les images / lancer les conteneurs en local
+
+### Installation du projet
+
+Activer direnv dans le package `backend` pour activer automatiquement l'environnement virtuel Python à l'intérieur
+
+```bash
+python3 -m venv .venv
+cd backend
+direnv allow
+```
+
+L'environnement virtuel devrait automatiquement être chargé.
+
+## Backend
 
 ```bash
 cd backend
-```
-
-### Créer un environnement virtuel Python
-
-```bash
-python3 -m venv [nom choisi pour l'environnement]
-```
-
-Le nom de dossier `.venv` est déjà exclu du tracking git. Il est conseillé de choisir ce nom-ci.
-
-### Basculer sur l'environnement virtuel
-
-```bash
-source [nom choisi pour l'environnement]/bin/activate
 ```
 
 ### Installer les dépendances
