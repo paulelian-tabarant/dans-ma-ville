@@ -21,31 +21,31 @@ python3 -m venv .venv
 Utiliser `direnv` pour activer automatiquement l'environnement virtuel Python lorsque l'on navigue dans le
 dossier `backend` depuis un terminal
 
-```bash
+```shell
 direnv allow
 ```
 
 ## Backend
 
-```bash
+```shell
 cd backend
 ```
 
 ### Installer les dépendances
 
-```bash
+```shell
 make install/dev
 ```
 
 ### Lancer le serveur
 
-```bash
+```shell
 make dev
 ```
 
 ## Mettre à jour les dépendances
 
-```bash
+```shell
 make update
 ```
 
