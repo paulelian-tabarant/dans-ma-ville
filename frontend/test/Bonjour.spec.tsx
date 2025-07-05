@@ -8,7 +8,10 @@ import type { BonjourRequestBody, BonjourResponseBody } from "../src/hooks/useBo
 
 describe('Bonjour', () => {
     const bonjourApiUrl = 'http://localhost:8000/bonjour/'
-    let requestBody: BonjourRequestBody
+    let requestBodySpy: BonjourRequestBody
+
+    let composant: RenderResult
+    let user: UserEvent
 
     beforeAll(() => {
         server.listen()
@@ -23,35 +26,32 @@ describe('Bonjour', () => {
     })
 
     it("doit envoyer le nom saisi", async () => {
-        const prenom = "Jean"
-
         stubPostBonjour({ message: 'Bonjour, Jean !' })
 
-        const composant: RenderResult = render(<Bonjour/>)
+        composant = render(<Bonjour/>)
+        user = userEvent.setup()
 
-        const user = userEvent.setup()
-
-        await saisirPrenom(user, composant, 'Jean')
-        await cliquerSurEnvoyer(user, composant);
+        await saisirPrenom('Jean')
+        await cliquerSurEnvoyer();
 
         await waitFor(() => {
-            expect(requestBody).toEqual({ prenom })
+            expect(requestBodySpy).toEqual({ prenom: "Jean" })
         })
     });
 
     function stubPostBonjour(reponse: BonjourResponseBody) {
         server.use(http.post(bonjourApiUrl, async ({ request }) => {
-            requestBody = await request.clone().json()
+            requestBodySpy = await request.clone().json()
             return HttpResponse.json(reponse)
         }))
     }
 
-    async function saisirPrenom(user: UserEvent, composant: RenderResult, prenom: string) {
+    async function saisirPrenom(prenom: string) {
         const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
         await user.type(champPrenom, prenom)
     }
 
-    async function cliquerSurEnvoyer(user: UserEvent, composant: RenderResult) {
+    async function cliquerSurEnvoyer() {
         const boutonEnvoyer = composant.getByRole('button', { name: 'Envoyer' });
         await user.click(boutonEnvoyer)
     }
