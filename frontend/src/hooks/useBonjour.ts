@@ -13,14 +13,13 @@ export function useBonjour() {
     const postBonjour = useCallback(async (prenom: string) => {
         setIsLoading(true)
 
-
         const response = await fetch(`${apiUrl}/bonjour/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prenom: prenom })
         })
-        setResponse(await response.json())
 
+        setResponse(await response.json())
         setIsLoading(false)
     }, [])
 
