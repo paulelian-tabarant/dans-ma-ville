@@ -25,7 +25,7 @@ describe('Bonjour', () => {
         server.close()
     })
 
-    it("doit envoyer le nom saisi", async () => {
+    it("doit envoyer le prénom saisi", async () => {
         stubPostBonjour({ message: 'Bonjour, Jean !' })
 
         composant = render(<Bonjour/>)
