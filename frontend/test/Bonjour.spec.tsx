@@ -7,7 +7,7 @@ import Bonjour from "../src/components/Bonjour.tsx";
 import type { BonjourRequestBody, BonjourResponseBody } from "../src/hooks/useBonjour.ts";
 
 describe('Bonjour', () => {
-    const endpointUrl = 'http://localhost:8000/bonjour/'
+    const bonjourApiUrl = 'http://localhost:8000/bonjour/'
     let requestBody: BonjourRequestBody
 
     beforeAll(() => {
@@ -25,11 +25,12 @@ describe('Bonjour', () => {
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
 
-        stubAppelApi(endpointUrl, { message: 'Bonjour, Jean !' })
+        stubPostBonjour({ message: 'Bonjour, Jean !' })
 
         const composant: RenderResult = render(<Bonjour/>)
 
         const user = userEvent.setup()
+
         await saisirPrenom(user, composant, 'Jean')
         await cliquerSurEnvoyer(user, composant);
 
@@ -38,8 +39,8 @@ describe('Bonjour', () => {
         })
     });
 
-    function stubAppelApi(url: string, reponse: BonjourResponseBody) {
-        server.use(http.post(url, async ({ request }) => {
+    function stubPostBonjour(reponse: BonjourResponseBody) {
+        server.use(http.post(bonjourApiUrl, async ({ request }) => {
             requestBody = await request.clone().json()
             return HttpResponse.json(reponse)
         }))
