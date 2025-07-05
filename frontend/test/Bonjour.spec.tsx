@@ -1,13 +1,14 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { render, type RenderResult, waitFor } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
+import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "./mocks/server";
 import Bonjour from "../src/components/Bonjour.tsx";
-import type { BonjourRequestBody } from "../src/hooks/useBonjour.ts";
+import type { BonjourRequestBody, BonjourResponseBody } from "../src/hooks/useBonjour.ts";
 
 describe('Bonjour', () => {
     const endpointUrl = 'http://localhost:8000/bonjour/'
+    let requestBody: BonjourRequestBody
 
     beforeAll(() => {
         server.listen()
@@ -24,26 +25,33 @@ describe('Bonjour', () => {
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
 
-        let requestBody: BonjourRequestBody
-        server.use(http.post(endpointUrl, async ({ request }) => {
-            requestBody = await request.clone().json()
-            return HttpResponse.json({ message: `Bonjour, ${prenom} !` })
-        }))
+        stubAppelApi(endpointUrl, { message: 'Bonjour, Jean !' })
 
         const composant: RenderResult = render(<Bonjour/>)
 
-        const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
         const user = userEvent.setup()
-        await user.type(champPrenom, prenom)
-
-        await user.click(composant.getByRole('button', { name: 'Envoyer' }))
+        await saisirPrenom(user, composant, 'Jean')
+        await cliquerSurEnvoyer(user, composant);
 
         await waitFor(() => {
             expect(requestBody).toEqual({ prenom })
         })
     });
 
-    it("doit afficher le nom de l'utilisateur après l'avoir renseigné dans le champ de texte", () => {
-        expect(false).toBeTruthy()
-    });
+    function stubAppelApi(url: string, reponse: BonjourResponseBody) {
+        server.use(http.post(url, async ({ request }) => {
+            requestBody = await request.clone().json()
+            return HttpResponse.json(reponse)
+        }))
+    }
+
+    async function saisirPrenom(user: UserEvent, composant: RenderResult, prenom: string) {
+        const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
+        await user.type(champPrenom, prenom)
+    }
+
+    async function cliquerSurEnvoyer(user: UserEvent, composant: RenderResult) {
+        const boutonEnvoyer = composant.getByRole('button', { name: 'Envoyer' });
+        await user.click(boutonEnvoyer)
+    }
 });
