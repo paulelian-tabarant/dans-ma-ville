@@ -5,10 +5,10 @@ import type { BonjourRequestBody, BonjourResponseBody } from "../hooks/useBonjou
 
 function Bonjour() {
     const [prenom, setPrenom] = useState('')
-    const { isLoading, response, callback } = useApi<BonjourResponseBody, BonjourRequestBody>()
+    const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
 
     const onBonjourClick = async () => {
-        await callback({ method: 'POST', resource: '/bonjour', body: { prenom } })
+        await appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
     }
 
     return (

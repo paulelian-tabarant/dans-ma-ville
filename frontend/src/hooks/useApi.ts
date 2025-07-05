@@ -9,7 +9,7 @@ interface AppelApi<Q> {
 interface UseApiResult<Q, R> {
     isLoading: boolean,
     response: R | undefined,
-    callback: (appel: AppelApi<Q>) => Promise<void>,
+    appel: (appel: AppelApi<Q>) => Promise<void>,
 }
 
 export function useApi<Q, R>(): UseApiResult<Q, R> {
@@ -18,10 +18,10 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
     const [isLoading, setIsLoading] = useState(false)
     const [response, setResponse] = useState<R>()
 
-    const callback = useCallback(async (appel: AppelApi<Q>) => {
+    const appel = useCallback(async (endpoint: AppelApi<Q>) => {
         setIsLoading(true)
 
-        const { method, resource, body } = appel
+        const { method, resource, body } = endpoint
 
         const response = await fetch(`${apiUrl}${resource}/`, {
             method,
@@ -33,5 +33,5 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
         setIsLoading(false)
     }, [])
 
-    return { isLoading, response, callback }
+    return { isLoading, response, appel }
 }
