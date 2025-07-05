@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useBonjour } from "../hooks/useBonjour.ts";
+import { useApi } from "../hooks/useApi.ts";
 
 
 function Bonjour() {
     const [prenom, setPrenom] = useState('')
-    const { isLoading, response, postBonjour } = useBonjour()
+    const { isLoading, response, callback } = useApi()
 
-    const onBonjourClick = async () => postBonjour({ prenom })
+    const onBonjourClick = async () => {
+        await callback({ method: 'POST', resource: '/bonjour', body: { prenom } })
+    }
 
     return (
         <>
