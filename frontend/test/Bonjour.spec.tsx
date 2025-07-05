@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
-import { render, type RenderResult, waitFor } from "@testing-library/react";
+import { cleanup, render, type RenderResult, waitFor } from "@testing-library/react";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "./mocks/server";
@@ -19,6 +19,7 @@ describe('Bonjour', () => {
 
     afterEach(() => {
         server.resetHandlers()
+        cleanup()
     })
 
     afterAll(() => {
@@ -26,7 +27,7 @@ describe('Bonjour', () => {
     })
 
     it("doit envoyer le prénom saisi", async () => {
-        stubPostBonjour({ message: 'Bonjour, Jean !' })
+        stubPostBonjour()
 
         composant = render(<Bonjour/>)
         user = userEvent.setup()
@@ -39,10 +40,24 @@ describe('Bonjour', () => {
         })
     });
 
-    function stubPostBonjour(reponse: BonjourResponseBody) {
+    it('doit afficher la réponse', async () => {
+        stubPostBonjour({ message: 'Bonjour, Jacky !' })
+
+        composant = render(<Bonjour/>)
+        user = userEvent.setup()
+
+        await saisirPrenom('Jacky')
+        await cliquerSurEnvoyer();
+
+        expect(composant.getByText('Bonjour, Jacky !')).toBeDefined()
+    });
+
+    function stubPostBonjour(reponse?: BonjourResponseBody) {
         server.use(http.post(bonjourApiUrl, async ({ request }) => {
             requestBodySpy = await request.clone().json()
-            return HttpResponse.json(reponse)
+            if (reponse) {
+                return HttpResponse.json(reponse)
+            }
         }))
     }
 
