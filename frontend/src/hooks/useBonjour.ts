@@ -14,9 +14,9 @@ export function useBonjour() {
         setIsLoading(true)
 
 
-        const response = await fetch(`${apiUrl}/bonjour`, {
+        const response = await fetch(`${apiUrl}/bonjour/`, {
             method: 'POST',
-            headers: new Headers({ 'Content-Type': 'application/json' }),
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prenom: prenom })
         })
         setResponse(await response.json())
