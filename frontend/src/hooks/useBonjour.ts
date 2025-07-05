@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-interface BonjourResponseBody {
+export interface BonjourResponseBody {
     message: string
 }
 
