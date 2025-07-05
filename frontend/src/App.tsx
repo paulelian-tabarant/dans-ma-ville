@@ -1,8 +1,12 @@
 import './App.css'
+import Bonjour from "./components/Bonjour.tsx";
 
 function App() {
     return (
-        <h1>Hello, Vite</h1>
+        <main>
+            <h1>Hello, Vite</h1>
+            <Bonjour/>
+        </main>
     )
 }
 
