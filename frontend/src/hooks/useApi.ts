@@ -6,11 +6,17 @@ interface AppelApi {
     body?: unknown
 }
 
-export function useApi() {
+interface UseApiResponse<T> {
+    isLoading: boolean,
+    response: T | undefined,
+    callback: (appel: AppelApi) => Promise<void>,
+}
+
+export function useApi<T>(): UseApiResponse<T> {
     const apiUrl = 'http://localhost:8000'
 
     const [isLoading, setIsLoading] = useState(false)
-    const [response, setResponse] = useState()
+    const [response, setResponse] = useState<T>()
 
     const callback = useCallback(async (appel: AppelApi) => {
         setIsLoading(true)
