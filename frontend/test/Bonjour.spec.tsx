@@ -1,18 +1,25 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { render, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "./mocks/server";
 import Bonjour from "../src/components/Bonjour.tsx";
+import type { BonjourRequestBody } from "../src/hooks/useBonjour.ts";
 
 describe('Bonjour', () => {
+    beforeAll(() => {
+        server.listen()
+    })
+
     it("doit envoyer le nom saisi", async () => {
         const prenom = "Jean"
 
-        const requestSpy = vi.fn()
-        server.use(http.post('bonjour', ({ request }) => {
-            requestSpy(request.json())
-            return new HttpResponse({ message: `Bonjour, ${prenom} !` })
+        const endpointUrl = 'http://localhost:8000/bonjour/'
+
+        let requestBody: BonjourRequestBody
+        server.use(http.post(endpointUrl, async ({ request }) => {
+            requestBody = await request.clone().json()
+            return HttpResponse.json({ message: `Bonjour, ${prenom} !` })
         }))
 
         const { getByLabelText, getByRole } = render(<Bonjour/>)
@@ -21,10 +28,10 @@ describe('Bonjour', () => {
         const user = userEvent.setup()
         await user.type(champPrenom, prenom)
 
-        await user.click(getByRole('submit', { name: 'Envoyer' }))
+        await user.click(getByRole('button', { name: 'Envoyer' }))
 
         await waitFor(() => {
-            expect(requestSpy).toHaveBeenCalledWith({ prenom })
+            expect(requestBody).toEqual({ prenom })
         })
     });
 

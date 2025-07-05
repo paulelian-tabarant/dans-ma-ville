@@ -4,19 +4,23 @@ interface BonjourResponseBody {
     message: string
 }
 
+export interface BonjourRequestBody {
+    prenom: string
+}
+
 export function useBonjour() {
     const apiUrl = 'http://localhost:8000'
 
     const [isLoading, setIsLoading] = useState(false)
     const [response, setResponse] = useState<BonjourResponseBody>()
 
-    const postBonjour = useCallback(async (prenom: string) => {
+    const postBonjour = useCallback(async (body: BonjourRequestBody) => {
         setIsLoading(true)
 
         const response = await fetch(`${apiUrl}/bonjour/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prenom: prenom })
+            body: JSON.stringify(body)
         })
 
         setResponse(await response.json())
