@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
-import { render, waitFor } from "@testing-library/react";
+import { render, type RenderResult, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "./mocks/server";
@@ -30,13 +30,13 @@ describe('Bonjour', () => {
             return HttpResponse.json({ message: `Bonjour, ${prenom} !` })
         }))
 
-        const { getByLabelText, getByRole } = render(<Bonjour/>)
+        const composant: RenderResult = render(<Bonjour/>)
 
-        const champPrenom = getByLabelText("Entre ici ton prénom :")
+        const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
         const user = userEvent.setup()
         await user.type(champPrenom, prenom)
 
-        await user.click(getByRole('button', { name: 'Envoyer' }))
+        await user.click(composant.getByRole('button', { name: 'Envoyer' }))
 
         await waitFor(() => {
             expect(requestBody).toEqual({ prenom })
