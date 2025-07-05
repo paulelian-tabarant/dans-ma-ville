@@ -1,24 +1,24 @@
 import { useCallback, useState } from "react";
 
-interface AppelApi {
+interface AppelApi<Q> {
     method: 'POST',
     resource: `/${string}`,
-    body?: unknown
+    body?: Q
 }
 
-interface UseApiResponse<T> {
+interface UseApiResult<Q, R> {
     isLoading: boolean,
-    response: T | undefined,
-    callback: (appel: AppelApi) => Promise<void>,
+    response: R | undefined,
+    callback: (appel: AppelApi<Q>) => Promise<void>,
 }
 
-export function useApi<T>(): UseApiResponse<T> {
+export function useApi<Q, R>(): UseApiResult<Q, R> {
     const apiUrl = 'http://localhost:8000'
 
     const [isLoading, setIsLoading] = useState(false)
-    const [response, setResponse] = useState<T>()
+    const [response, setResponse] = useState<R>()
 
-    const callback = useCallback(async (appel: AppelApi) => {
+    const callback = useCallback(async (appel: AppelApi<Q>) => {
         setIsLoading(true)
 
         const { method, resource, body } = appel
