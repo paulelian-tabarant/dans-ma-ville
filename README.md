@@ -48,12 +48,6 @@ dossier `backend` depuis un terminal
 direnv allow
 ```
 
-## Backend
-
-```shell
-cd backend
-```
-
 ### Installer les dépendances
 
 ```shell
@@ -66,13 +60,13 @@ make install/dev
 make dev
 ```
 
-## Mettre à jour les dépendances
+### Mettre à jour les dépendances
 
 ```shell
 make update
 ```
 
-## Déployer l'API
+### Déployer l'API
 
 L'API se déploie à chaque merge sur la branche `main`.
 
