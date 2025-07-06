@@ -9,7 +9,7 @@ interface AppelApi<Q> {
 interface UseApiResult<Q, R> {
   isLoading: boolean,
   response: R | undefined,
-  appel: (appel: AppelApi<Q>) => Promise<void>,
+  httpCall: (appel: AppelApi<Q>) => Promise<void>,
 }
 
 export function useApi<Q, R>(): UseApiResult<Q, R> {
@@ -33,5 +33,5 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
     setIsLoading(false)
   }, [])
 
-  return { isLoading, response, appel }
+  return { isLoading, response, httpCall: appel }
 }

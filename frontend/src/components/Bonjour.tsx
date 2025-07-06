@@ -8,10 +8,10 @@ import { HandshakeIcon, Loader } from "lucide-react";
 
 function Bonjour() {
   const [prenom, setPrenom] = useState('')
-  const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
+  const { isLoading, response, httpCall } = useApi<BonjourRequestBody, BonjourResponseBody>()
 
   const onBonjourClick = (e: FormEvent) => {
-    void appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
+    void httpCall({ method: 'POST', resource: '/bonjour', body: { prenom } })
     e.preventDefault()
   }
 
