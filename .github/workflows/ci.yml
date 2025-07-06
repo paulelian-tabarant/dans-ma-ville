@@ -2,9 +2,16 @@ name: CI/CD
 
 on:
   pull_request:
-    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/ci.yml'
   push:
     branches: [ main ]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   backend-lint:
