@@ -16,8 +16,13 @@ app = FastAPI(title="Dans ma ville", root_path="/api")
 app.include_router(bonjour.router)
 app.exception_handler(RequestValidationError)(validation_error_handler)
 
-# TODO: remplacer allow_origins par URL front en prod quand proxy en place dans l'environnement de dev
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"])
+# TODO: remplacer allow_origins par URL front en prod
+#  quand proxy en place dans l'environnement de dev
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"]
+)
 
 
 @app.get("/health")
