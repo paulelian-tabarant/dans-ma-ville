@@ -8,68 +8,68 @@ import Bonjour from "@/components/Bonjour.tsx";
 import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.resource.ts";
 
 describe('Bonjour', () => {
-    const bonjourApiUrl = 'http://localhost:8000/bonjour/'
-    let requestBodySpy: BonjourRequestBody
+  const bonjourApiUrl = 'http://localhost:8000/bonjour/'
+  let requestBodySpy: BonjourRequestBody
 
-    let composant: RenderResult
-    let user: UserEvent
+  let composant: RenderResult
+  let user: UserEvent
 
-    beforeAll(() => {
-        server.listen()
+  beforeAll(() => {
+    server.listen()
+  })
+
+  afterEach(() => {
+    server.resetHandlers()
+    cleanup()
+  })
+
+  afterAll(() => {
+    server.close()
+  })
+
+  it("doit envoyer le prénom saisi", async () => {
+    stubPostBonjour()
+
+    composant = render(<Bonjour/>)
+    user = userEvent.setup()
+
+    await saisirPrenom('Jean')
+    await cliquerSurEnvoyer();
+
+    await waitFor(() => {
+      expect(requestBodySpy).toEqual({ prenom: "Jean" })
     })
+  });
 
-    afterEach(() => {
-        server.resetHandlers()
-        cleanup()
-    })
+  it('doit afficher la réponse', async () => {
+    stubPostBonjour({ message: 'Bonjour, Jacky !' })
 
-    afterAll(() => {
-        server.close()
-    })
+    composant = render(<Bonjour/>)
+    user = userEvent.setup()
 
-    it("doit envoyer le prénom saisi", async () => {
-        stubPostBonjour()
+    await saisirPrenom('Jacky')
+    await cliquerSurEnvoyer();
 
-        composant = render(<Bonjour/>)
-        user = userEvent.setup()
+    expect(composant.getByText('Bonjour, Jacky !')).toBeDefined()
+  });
 
-        await saisirPrenom('Jean')
-        await cliquerSurEnvoyer();
+  function stubPostBonjour(reponse?: BonjourResponseBody) {
+    server.use(http.post(bonjourApiUrl, async ({ request }) => {
+      requestBodySpy = await request.clone().json() as BonjourRequestBody
 
-        await waitFor(() => {
-            expect(requestBodySpy).toEqual({ prenom: "Jean" })
-        })
-    });
+      if (reponse) {
+        return HttpResponse.json(reponse)
+      }
+    }))
+  }
 
-    it('doit afficher la réponse', async () => {
-        stubPostBonjour({ message: 'Bonjour, Jacky !' })
+  async function saisirPrenom(prenom: string) {
+    const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
+    await user.type(champPrenom, prenom)
+  }
 
-        composant = render(<Bonjour/>)
-        user = userEvent.setup()
-
-        await saisirPrenom('Jacky')
-        await cliquerSurEnvoyer();
-
-        expect(composant.getByText('Bonjour, Jacky !')).toBeDefined()
-    });
-
-    function stubPostBonjour(reponse?: BonjourResponseBody) {
-        server.use(http.post(bonjourApiUrl, async ({ request }) => {
-            requestBodySpy = await request.clone().json() as BonjourRequestBody
-
-            if (reponse) {
-                return HttpResponse.json(reponse)
-            }
-        }))
-    }
-
-    async function saisirPrenom(prenom: string) {
-        const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
-        await user.type(champPrenom, prenom)
-    }
-
-    async function cliquerSurEnvoyer() {
-        const boutonEnvoyer = composant.getByRole('button', { name: 'Envoyer' });
-        await user.click(boutonEnvoyer)
-    }
+  async function cliquerSurEnvoyer() {
+    const boutonEnvoyer = composant.getByRole('button', { name: 'Envoyer' });
+    await user.click(boutonEnvoyer)
+  }
 });

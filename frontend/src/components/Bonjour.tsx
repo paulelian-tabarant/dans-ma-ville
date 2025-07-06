@@ -7,37 +7,37 @@ import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.reso
 import { HandshakeIcon, Loader } from "lucide-react";
 
 function Bonjour() {
-    const [prenom, setPrenom] = useState('')
-    const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
+  const [prenom, setPrenom] = useState('')
+  const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
 
-    const onBonjourClick = (e: FormEvent) => {
-        void appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
-        e.preventDefault()
-    }
+  const onBonjourClick = (e: FormEvent) => {
+    void appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
+    e.preventDefault()
+  }
 
-    return (
-        <>
-            <h1>Bonjour !</h1>
+  return (
+    <>
+      <h1>Bonjour !</h1>
 
-            <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
-                <label htmlFor="prenom">Entre ici ton prénom :</label>
-                <div className="flex gap-2">
-                    <Input id="prenom" type="text" onChange={e => {
-                        setPrenom(e.target.value);
-                    }}/>
-                    <Button type={"submit"}>Envoyer</Button>
-                </div>
+      <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
+        <label htmlFor="prenom">Entre ici ton prénom :</label>
+        <div className="flex gap-2">
+          <Input id="prenom" type="text" onChange={e => {
+            setPrenom(e.target.value);
+          }}/>
+          <Button type={"submit"}>Envoyer</Button>
+        </div>
 
-                {isLoading && <Loader/>}
-                {!isLoading && response &&
+        {isLoading && <Loader/>}
+        {!isLoading && response &&
                     <Alert>
-                        <HandshakeIcon/>
-                        <AlertTitle>{response.message}</AlertTitle>
+                      <HandshakeIcon/>
+                      <AlertTitle>{response.message}</AlertTitle>
                     </Alert>
-                }
-            </form>
-        </>
-    )
+        }
+      </form>
+    </>
+  )
 }
 
 export default Bonjour

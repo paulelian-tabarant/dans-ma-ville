@@ -1,7 +1,7 @@
 export interface BonjourResponseBody {
-    message: string
+  message: string
 }
 
 export interface BonjourRequestBody {
-    prenom: string
+  prenom: string
 }

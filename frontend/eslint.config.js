@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint'
 import {globalIgnores} from 'eslint/config'
 import reactDom from 'eslint-plugin-react-dom'
 import react from "eslint-plugin-react-x";
+import stylistic from '@stylistic/eslint-plugin'
 
 export default tseslint.config([
     globalIgnores(['dist']),
@@ -35,8 +36,12 @@ export default tseslint.config([
                 tsconfigRootDir: import.meta.dirname,
             },
         },
+        plugins: {
+            '@stylistic': stylistic
+        },
         "rules": {
-            "object-curly-spacing": ["error", "always"]
+            "object-curly-spacing": ["error", "always"],
+            '@stylistic/indent': ['error', 2],
         }
     },
 ])
