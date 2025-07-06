@@ -8,7 +8,6 @@ export default defineConfig({
     plugins: [react(), tailwindcss()],
     resolve: {
         alias: {
-            /* Used by shacdn */
             "@": path.resolve(__dirname, "./src"),
         },
     },
