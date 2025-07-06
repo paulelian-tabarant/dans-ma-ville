@@ -26,7 +26,11 @@ function Bonjour() {
                 </div>
 
                 {isLoading && <p>Loading...</p>}
-                {!isLoading && response && <Alert><AlertDescription>{response.message}</AlertDescription></Alert>}
+                {!isLoading && response &&
+                    <Alert>
+                        <AlertDescription>{response.message}</AlertDescription>
+                    </Alert>
+                }
             </div>
         </>
     )
