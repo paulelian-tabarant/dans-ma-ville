@@ -12,9 +12,10 @@ interface UseApiResult<Q, R> {
   httpCall: (appel: AppelApi<Q>) => Promise<void>,
 }
 
-export function useApi<Q, R>(): UseApiResult<Q, R> {
-  const apiUrl = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_URL as string
 
+
+export function useApi<Q, R>(): UseApiResult<Q, R> {
   const [isLoading, setIsLoading] = useState(false)
   const [response, setResponse] = useState<R>()
 
@@ -23,7 +24,7 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
 
     const { method, resource, body } = endpoint
 
-    const response = await fetch(`${apiUrl}${resource}/`, {
+    const response = await fetch(`${API_URL}${resource}/`, {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)

@@ -8,7 +8,8 @@ import Bonjour from "@/components/Bonjour.tsx";
 import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.resource.ts";
 
 describe('Bonjour', () => {
-  const bonjourApiUrl = 'http://localhost:8000/bonjour/'
+  const bonjourApiUrl = import.meta.env.VITE_API_URL as string + '/bonjour'
+
   let requestBodySpy: BonjourRequestBody
 
   let composant: RenderResult

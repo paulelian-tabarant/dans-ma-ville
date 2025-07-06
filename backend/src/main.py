@@ -12,7 +12,7 @@ from fastapi.exceptions import RequestValidationError
 from errors.error_handlers import validation_error_handler
 from routers import bonjour
 
-app = FastAPI(title="Dans ma ville")
+app = FastAPI(title="Dans ma ville", root_path="/api")
 app.include_router(bonjour.router)
 app.exception_handler(RequestValidationError)(validation_error_handler)
 
