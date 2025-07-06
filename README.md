@@ -2,19 +2,42 @@
 
 ## Prérequis
 
-### Packages
-
+- pnpm
+- nodejs
 - python3
 - direnv
 - make
 - un démon Docker, si besoin de construire les images / lancer les conteneurs en local
 
-### Installation du projet
+## Frontend
+
+```shell
+cd frontend
+```
+
+### Installer les dépendances
+
+```shell
+pnpm i
+```
+
+### Démarrer l'application frontend
+
+```shell
+pnpm run dev
+```
+
+## Backend
+
+```shell
+cd backend
+```
+
+### Activer l'environnement virtuel
 
 Créer un environnement virtuel Python pour y stocker les dépendances backend
 
 ```shell
-cd backend
 python3 -m venv .venv
 ```
 
@@ -23,12 +46,6 @@ dossier `backend` depuis un terminal
 
 ```shell
 direnv allow
-```
-
-## Backend
-
-```shell
-cd backend
 ```
 
 ### Installer les dépendances
@@ -43,13 +60,13 @@ make install/dev
 make dev
 ```
 
-## Mettre à jour les dépendances
+### Mettre à jour les dépendances
 
 ```shell
 make update
 ```
 
-## Déployer l'API
+### Déployer l'API
 
 L'API se déploie à chaque merge sur la branche `main`.
 

@@ -2,17 +2,12 @@ name: CI/CD
 
 on:
   pull_request:
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
+    branches: [ main ]
   push:
     branches: [ main ]
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
 
 jobs:
-  lint:
+  backend-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,7 +18,7 @@ jobs:
       - name: Lint with ruff
         run: make lint
 
-  compile:
+  backend-compile:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,7 +29,7 @@ jobs:
       - name: Check code syntax and typing
         run: make compile
 
-  build:
+  backend-build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,7 +47,7 @@ jobs:
           PORT: 8000
           HOST: 0.0.0.0
 
-  test:
+  backend-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -63,9 +58,62 @@ jobs:
       - name: Run tests
         run: make test
 
+  frontend-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17' # or whatever your project uses
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.9.0
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm run lint
+
+  frontend-compile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17' # or whatever your project uses
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.9.0
+      - name: Install dependencies
+        run: pnpm install
+      - name: Compile with TypeScript
+        run: pnpm run compile
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17' # or whatever your project uses
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.9.0
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run unit tests
+        run: pnpm run test
 
   deploy:
-    needs: [ lint, compile, build, test ]
+    needs: [ backend-lint, backend-compile, backend-build, backend-test ]
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
