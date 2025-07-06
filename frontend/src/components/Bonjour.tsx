@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useApi } from "@/hooks/useApi.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
@@ -10,21 +10,22 @@ function Bonjour() {
     const [prenom, setPrenom] = useState('')
     const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
 
-    const onBonjourClick = () => {
+    const onBonjourClick = (e: FormEvent) => {
         void appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
+        e.preventDefault()
     }
 
     return (
         <>
-            <h2>Bonjour !</h2>
+            <h1>Bonjour !</h1>
 
-            <div className="flex flex-col gap-2">
+            <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
                 <label htmlFor="prenom">Entre ici ton prénom :</label>
                 <div className="flex gap-2">
                     <Input id="prenom" type="text" onChange={e => {
                         setPrenom(e.target.value);
                     }}/>
-                    <Button onClick={onBonjourClick}>Envoyer</Button>
+                    <Button type={"submit"}>Envoyer</Button>
                 </div>
 
                 {isLoading && <Loader/>}
@@ -34,7 +35,7 @@ function Bonjour() {
                         <AlertTitle>{response.message}</AlertTitle>
                     </Alert>
                 }
-            </div>
+            </form>
         </>
     )
 }
