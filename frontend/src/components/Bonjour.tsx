@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from "react";
+import { type ChangeEvent, type FormEvent, useState } from "react";
 import { useApi } from "@/hooks/useApi.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
@@ -15,6 +15,10 @@ function Bonjour() {
     e.preventDefault()
   }
 
+  const onPrenomChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPrenom(e.target.value)
+  }
+
   return (
     <>
       <h1>Bonjour !</h1>
@@ -22,18 +26,17 @@ function Bonjour() {
       <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
         <label htmlFor="prenom">Entre ici ton prénom :</label>
         <div className="flex gap-2">
-          <Input id="prenom" type="text" onChange={e => {
-            setPrenom(e.target.value);
-          }}/>
-          <Button type={"submit"}>Envoyer</Button>
+          <Input id="prenom" type="text" onChange={onPrenomChange}/>
+          <Button type="submit">Envoyer</Button>
         </div>
-
-        {isLoading && <Loader/>}
-        {!isLoading && response &&
-                    <Alert>
-                      <HandshakeIcon/>
-                      <AlertTitle>{response.message}</AlertTitle>
-                    </Alert>
+        {
+          isLoading ? (
+            <Loader/>
+          ) : response &&
+          <Alert>
+            <HandshakeIcon/>
+            <AlertTitle>{response.message}</AlertTitle>
+          </Alert>
         }
       </form>
     </>
