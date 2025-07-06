@@ -15,8 +15,10 @@ function Bonjour() {
         <>
             <h2>Bonjour !</h2>
 
-            <label htmlFor="prenom">Entre ici ton prénom :</label>
-            <input id="prenom" type="text" onChange={e => setPrenom(e.target.value)}/>
+            <div>
+                <label htmlFor="prenom">Entre ici ton prénom :</label>
+                <input id="prenom" type="text" onChange={e => setPrenom(e.target.value)}/>
+            </div>
             <button onClick={onBonjourClick}>Envoyer</button>
 
             {isLoading && <p>Loading...</p>}
