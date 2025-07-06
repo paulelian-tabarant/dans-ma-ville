@@ -76,6 +76,41 @@ jobs:
       - name: Lint
         run: pnpm run lint
 
+  frontend-compile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17' # or whatever your project uses
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.9.0
+      - name: Install dependencies
+        run: pnpm install
+      - name: Compile with TypeScript
+        run: pnpm run compile
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17' # or whatever your project uses
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.9.0
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run unit tests
+        run: pnpm run test
 
   deploy:
     needs: [ backend-lint, backend-compile, backend-build, backend-test ]
