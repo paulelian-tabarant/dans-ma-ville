@@ -2,17 +2,12 @@ name: CI/CD
 
 on:
   pull_request:
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
+    branches: [ main ]
   push:
     branches: [ main ]
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
 
 jobs:
-  lint:
+  backend-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,7 +18,7 @@ jobs:
       - name: Lint with ruff
         run: make lint
 
-  compile:
+  backend-compile:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,7 +29,7 @@ jobs:
       - name: Check code syntax and typing
         run: make compile
 
-  build:
+  backend-build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,7 +47,7 @@ jobs:
           PORT: 8000
           HOST: 0.0.0.0
 
-  test:
+  backend-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -65,7 +60,7 @@ jobs:
 
 
   deploy:
-    needs: [ lint, compile, build, test ]
+    needs: [ backend-lint, backend-compile, backend-build, backend-test ]
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
