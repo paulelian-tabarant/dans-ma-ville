@@ -17,15 +17,10 @@ export default tseslint.config([
         ],
         extends: [
             js.configs.recommended,
-            // Remove tseslint.configs.recommended and replace with this
-            ...tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
             ...tseslint.configs.strictTypeChecked,
             reactHooks.configs['recommended-latest'],
             reactRefresh.configs.vite,
-            // Enable lint rules for React
             react.configs.recommended,
-            // Enable lint rules for React DOM
             reactDom.configs.recommended,
         ],
         languageOptions: {

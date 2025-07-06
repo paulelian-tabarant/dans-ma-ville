@@ -9,7 +9,6 @@
     }
   ],
   "compilerOptions": {
-    /* Used by shadcn */
     "baseUrl": ".",
     "paths": {
       "@/*": [
