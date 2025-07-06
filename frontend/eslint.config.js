@@ -9,6 +9,9 @@ export default tseslint.config([
     globalIgnores(['dist']),
     {
         files: ['**/*.{ts,tsx}'],
+        ignores: [
+            './src/components/ui/**'
+        ],
         extends: [
             js.configs.recommended,
             // Remove tseslint.configs.recommended and replace with this

@@ -29,7 +29,7 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
             body: JSON.stringify(body)
         })
 
-        setResponse(await response.json())
+        setResponse(await response.json() as R)
         setIsLoading(false)
     }, [])
 

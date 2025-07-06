@@ -10,8 +10,8 @@ function Bonjour() {
     const [prenom, setPrenom] = useState('')
     const { isLoading, response, appel } = useApi<BonjourRequestBody, BonjourResponseBody>()
 
-    const onBonjourClick = async () => {
-        await appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
+    const onBonjourClick = () => {
+        void appel({ method: 'POST', resource: '/bonjour', body: { prenom } })
     }
 
     return (
@@ -21,7 +21,7 @@ function Bonjour() {
             <label htmlFor="prenom">Entre ici ton prénom :</label>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
-                    <Input id="prenom" type="text" onChange={e => setPrenom(e.target.value)}/>
+                    <Input id="prenom" type="text" onChange={e => { setPrenom(e.target.value); }}/>
                     <Button onClick={onBonjourClick}>Envoyer</Button>
                 </div>
 
