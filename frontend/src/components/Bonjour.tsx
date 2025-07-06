@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useApi } from "../hooks/useApi.ts";
-import type { BonjourRequestBody, BonjourResponseBody } from "../hooks/useBonjour.ts";
+import { useApi } from "@/hooks/useApi.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Alert, AlertDescription } from "@/components/ui/alert.tsx";
+import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.resource.ts";
 
 
 function Bonjour() {

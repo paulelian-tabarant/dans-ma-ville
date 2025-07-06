@@ -3,8 +3,9 @@ import { cleanup, render, type RenderResult, waitFor } from "@testing-library/re
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { http, HttpResponse } from "msw";
 import { server } from "./mocks/server";
-import Bonjour from "../src/components/Bonjour.tsx";
-import type { BonjourRequestBody, BonjourResponseBody } from "../src/hooks/useBonjour.ts";
+import Bonjour from "@/components/Bonjour.tsx";
+
+import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.resource.ts";
 
 describe('Bonjour', () => {
     const bonjourApiUrl = 'http://localhost:8000/bonjour/'
@@ -54,7 +55,8 @@ describe('Bonjour', () => {
 
     function stubPostBonjour(reponse?: BonjourResponseBody) {
         server.use(http.post(bonjourApiUrl, async ({ request }) => {
-            requestBodySpy = await request.clone().json()
+            requestBodySpy = await request.clone().json() as BonjourRequestBody
+
             if (reponse) {
                 return HttpResponse.json(reponse)
             }
