@@ -54,13 +54,11 @@ describe('Bonjour', () => {
     expect(composant.getByText('Bonjour, Jacky !')).toBeDefined()
   });
 
-  function stubPostBonjour(reponse?: BonjourResponseBody) {
+  function stubPostBonjour(response?: BonjourResponseBody) {
     server.use(http.post(bonjourApiUrl, async ({ request }) => {
       requestBodySpy = await request.clone().json() as BonjourRequestBody
 
-      if (reponse) {
-        return HttpResponse.json(reponse)
-      }
+      return HttpResponse.json(response ?? { message: 'Bonjour, Jacky !' })
     }))
   }
 
