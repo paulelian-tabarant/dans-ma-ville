@@ -3,6 +3,7 @@ FROM python:3.13-slim
 WORKDIR /app
 
 COPY src/ src/.
+COPY static static/.
 
 RUN apt-get update && apt-get install -y make && rm -rf /var/lib/apt/lists/*
 
