@@ -2,7 +2,6 @@ import os
 import sys
 
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import FileResponse
 from starlette.staticfiles import StaticFiles
 
 # Nécessaire pour que la racine du projet puisse être résolue en termes d'imports
@@ -34,10 +33,6 @@ async def health_check() -> dict[str, str]:
 
 app = FastAPI(title="Dans Ma Ville")
 
-app.mount("/assets", StaticFiles(directory="static/assets"), name="static")
 app.mount("/api", api)
-
-
-@app.get("/")
-async def serve_spa():
-    return FileResponse("static/index.html")
+# L'application front est servie par l'application backend directement
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
