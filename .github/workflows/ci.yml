@@ -133,7 +133,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-bundle
-          path: frontend/dist/
+          path: frontend/dist/**/*
 
   deploy:
     needs: [
@@ -160,7 +160,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: frontend-bundle
-          path: ./backend/static
+          path: backend/static
+
+      - name: Verify downloaded files
+        run: |
+          echo "Checking backend/static after download:"
+          ls -la backend/static/
 
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
