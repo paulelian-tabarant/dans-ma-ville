@@ -126,6 +126,8 @@ jobs:
         with:
           version: 10.9.0
       - name: Install dependencies
+        run: pnpm install
+      - name: Create frontend final bundle
         run: pnpm run build
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
