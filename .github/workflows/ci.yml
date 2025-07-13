@@ -113,6 +113,7 @@ jobs:
         run: pnpm run test
 
   frontend-upload-bundle:
+    needs: [ frontend-lint, frontend-compile, frontend-test ]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -136,7 +137,7 @@ jobs:
           path: frontend/dist/
 
   deploy:
-    needs: [ backend-lint, backend-compile, backend-build, backend-test, frontend-lint, frontend-compile, frontend-test, frontend-upload-bundle ]
+    needs: [ backend-lint, backend-compile, backend-build, backend-test, frontend-upload-bundle ]
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
