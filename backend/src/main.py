@@ -17,10 +17,9 @@ api = FastAPI()
 api.include_router(bonjour.router)
 api.exception_handler(RequestValidationError)(validation_error_handler)
 
-# TODO: remplacer allow_origins par URL front en prod
-#  quand proxy en place dans l'environnement de dev
 api.add_middleware(
     CORSMiddleware,
+    # TODO: mettre en place un proxy en local pour ne pas avoir à mentionner cet origin
     allow_origins=["http://localhost:5173"],
     allow_methods=["*"]
 )
@@ -34,5 +33,5 @@ async def health_check() -> dict[str, str]:
 app = FastAPI(title="Dans Ma Ville")
 
 app.mount("/api", api)
-# L'application front est servie par l'application backend directement
+# La SPA front est servie par l'application backend directement
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
