@@ -161,16 +161,11 @@ jobs:
           rm -rf backend/static
           mkdir -p backend/static
 
-      - name: Download build artifacts
+      - name: Download frontend bundle to be served from the static directory
         uses: actions/download-artifact@v4
         with:
           name: frontend-bundle
           path: backend/static
-
-      - name: Verify downloaded files
-        run: |
-          echo "Checking backend/static after download:"
-          ls -la backend/static/
 
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
