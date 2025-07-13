@@ -133,7 +133,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-bundle
-          path: dist/
+          path: frontend/dist/
 
   deploy:
     needs: [ backend-lint, backend-compile, backend-build, backend-test, frontend-lint, frontend-compile, frontend-test, frontend-upload-bundle ]
