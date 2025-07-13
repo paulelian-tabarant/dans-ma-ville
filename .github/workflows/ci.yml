@@ -41,7 +41,7 @@ jobs:
         run: |
           make start &
           sleep 5
-          curl -f http://127.0.0.1:8000/health || (echo "App failed to start" && exit 1)
+          curl -f http://127.0.0.1:8000/api/health || (echo "App failed to start" && exit 1)
           pkill -f "uvicorn"
         env:
           PORT: 8000
