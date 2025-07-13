@@ -2,9 +2,9 @@ from http import HTTPStatus
 
 from fastapi.testclient import TestClient
 
-from main import app
+from main import api
 
-client = TestClient(app)
+client = TestClient(api)
 
 
 def test_health_check() -> None:

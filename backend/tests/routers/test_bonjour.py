@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
 
-from main import app
+from main import api
 
-client = TestClient(app)
+client = TestClient(api)
 
 
 def test_doit_dire_bonjour_avec_le_nom_de_la_personne() -> None:

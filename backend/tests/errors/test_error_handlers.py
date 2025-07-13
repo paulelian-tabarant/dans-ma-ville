@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 
-from main import app
+from main import api
 
 
 class RequestBodyAttendu(BaseModel):
@@ -14,9 +14,9 @@ def endpoint_pour_test(body: RequestBodyAttendu) -> None:
     return
 
 
-app.add_api_route(path="/test", endpoint=endpoint_pour_test, methods=["POST"])
+api.add_api_route(path="/test", endpoint=endpoint_pour_test, methods=["POST"])
 
-client = TestClient(app)
+client = TestClient(api)
 
 
 def test_doit_fournir_toutes_les_erreurs_de_validation_du_request_body() -> None:
