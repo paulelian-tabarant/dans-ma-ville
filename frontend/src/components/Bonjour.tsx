@@ -17,7 +17,7 @@ function Bonjour() {
 
   return (
     <>
-      <h1>Bonjour !</h1>
+      <h1>Bonjour à toi, cher ami.</h1>
 
       <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
         <label htmlFor="prenom">Entre ici ton prénom :</label>
