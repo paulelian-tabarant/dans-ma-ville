@@ -1,4 +1,3 @@
-import './App.css'
 import Bonjour from "./components/Bonjour.tsx";
 
 function App() {
