@@ -20,7 +20,7 @@ function Bonjour() {
       <h1>Bonjour à toi, cher ami.</h1>
 
       <form onSubmit={onBonjourClick} className="flex flex-col gap-2">
-        <label htmlFor="prenom">Entre ici ton prénom :</label>
+        <label htmlFor="prenom">Quel est ton prénom ?</label>
         <div className="flex gap-2">
           <Input id="prenom" type="text" onChange={(e) => {
             setPrenom(e.target.value)

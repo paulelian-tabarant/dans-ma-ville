@@ -63,7 +63,7 @@ describe('Bonjour', () => {
   }
 
   async function saisirPrenom(prenom: string) {
-    const champPrenom = composant.getByLabelText("Entre ici ton prénom :")
+    const champPrenom = composant.getByLabelText("Quel est ton prénom ?")
     await user.type(champPrenom, prenom)
   }
 
