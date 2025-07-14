@@ -1,0 +1,15 @@
+name: 'Install frontend dependencies'
+description: 'Setup node, pnpm and install frontend dependencies'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22.17'
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 10.9.0
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install
+      working-directory: frontend

@@ -2,70 +2,122 @@ name: CI/CD
 
 on:
   pull_request:
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
+    branches: [ main ]
   push:
     branches: [ main ]
-    paths:
-      - 'backend/**'
-      - '.github/workflows/ci.yml'
 
 jobs:
-  lint:
+  backend-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-backend-dependencies
+      - uses: ./.github/actions/install-backend-dependencies
       - name: Lint with ruff
         run: make lint
 
-  compile:
+  backend-compile:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-backend-dependencies
+      - uses: ./.github/actions/install-backend-dependencies
       - name: Check code syntax and typing
         run: make compile
 
-  build:
+  backend-build:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-backend-dependencies
+      - uses: ./.github/actions/install-backend-dependencies
       - name: Run the app
         run: |
           make start &
           sleep 5
-          curl -f http://127.0.0.1:8000/health || (echo "App failed to start" && exit 1)
+          curl -f http://127.0.0.1:8000/api/health || (echo "App failed to start" && exit 1)
           pkill -f "uvicorn"
         env:
           PORT: 8000
           HOST: 0.0.0.0
 
-  test:
+  backend-test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-backend-dependencies
+      - uses: ./.github/actions/install-backend-dependencies
       - name: Run tests
         run: make test
 
+  frontend-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-frontend-dependencies
+      - name: Lint frontend
+        run: pnpm run lint
+
+  frontend-compile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-frontend-dependencies
+      - name: Compile frontend
+        run: pnpm run compile
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-frontend-dependencies
+      - name: Run frontend unit tests
+        run: pnpm run test
+
+  frontend-upload-bundle:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-frontend-dependencies
+      - name: Create frontend final bundle
+        run: pnpm run build
+      - name: Upload frontend build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-bundle
+          path: frontend/dist/
 
   deploy:
-    needs: [ lint, compile, build, test ]
+    needs: [
+      backend-lint,
+      backend-compile,
+      backend-build,
+      backend-test,
+      frontend-lint,
+      frontend-compile,
+      frontend-test,
+      frontend-upload-bundle
+    ]
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
@@ -76,10 +128,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Refresh frontend app's static directory
+        run: |
+          rm -rf backend/static
+          mkdir -p backend/static
+
+      - name: Download frontend bundle into the static directory
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-bundle
+          path: backend/static
+
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
 
-      - name: Link and deploy
+      - name: Deploy both apps on Railway
         id: deploy
         run: |
           cd backend
