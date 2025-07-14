@@ -76,14 +76,7 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.17' # or whatever your project uses
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10.9.0
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/install-frontend-dependencies
       - name: Compile with TypeScript
         run: pnpm run compile
 
@@ -94,14 +87,7 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.17'
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10.9.0
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/install-frontend-dependencies
       - name: Run unit tests
         run: pnpm run test
 
@@ -112,14 +98,7 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.17'
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10.9.0
-      - name: Install dependencies
-        run: pnpm install
+      - uses: ./.github/actions/install-frontend-dependencies
       - name: Create frontend final bundle
         run: pnpm run build
       - name: Upload build artifacts
