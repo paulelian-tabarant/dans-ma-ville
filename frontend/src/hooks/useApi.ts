@@ -12,7 +12,7 @@ interface UseApiResult<Q, R> {
   httpCall: (appel: AppelApi<Q>) => Promise<void>,
 }
 
-const API_URL = import.meta.env.VITE_API_URL as string
+export const BASE_API_URL = '/api'
 
 
 export function useApi<Q, R>(): UseApiResult<Q, R> {
@@ -24,7 +24,7 @@ export function useApi<Q, R>(): UseApiResult<Q, R> {
 
     const { method, resource, body } = endpoint
 
-    const response = await fetch(`${API_URL}${resource}/`, {
+    const response = await fetch(`${BASE_API_URL}${resource}/`, {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
