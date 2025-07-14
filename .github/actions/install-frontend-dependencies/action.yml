@@ -1,5 +1,5 @@
 name: 'Install frontend dependencies'
-description: 'Set up Node, pnpm and install frontend dependencies'
+description: 'Setup node, pnpm and install frontend dependencies'
 runs:
   using: 'composite'
   steps:

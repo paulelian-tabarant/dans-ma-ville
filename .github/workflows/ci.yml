@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-frontend-dependencies
-      - name: Lint
+      - name: Lint frontend
         run: pnpm run lint
 
   frontend-compile:
@@ -77,7 +77,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-frontend-dependencies
-      - name: Compile with TypeScript
+      - name: Compile frontend
         run: pnpm run compile
 
   frontend-test:
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-frontend-dependencies
-      - name: Run unit tests
+      - name: Run frontend unit tests
         run: pnpm run test
 
   frontend-upload-bundle:
@@ -101,7 +101,7 @@ jobs:
       - uses: ./.github/actions/install-frontend-dependencies
       - name: Create frontend final bundle
         run: pnpm run build
-      - name: Upload build artifacts
+      - name: Upload frontend build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: frontend-bundle
@@ -128,12 +128,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clear and prepare static directory
+      - name: Refresh frontend app's static directory
         run: |
           rm -rf backend/static
           mkdir -p backend/static
 
-      - name: Download frontend bundle to be served from the static directory
+      - name: Download frontend bundle into the static directory
         uses: actions/download-artifact@v4
         with:
           name: frontend-bundle
@@ -142,7 +142,7 @@ jobs:
       - name: Install Railway CLI
         run: curl -fsSL https://railway.app/install.sh | sh
 
-      - name: Link and deploy
+      - name: Deploy both apps on Railway
         id: deploy
         run: |
           cd backend
