@@ -1,7 +1,6 @@
 import os
 import sys
 
-from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
 # Nécessaire pour que la racine du projet puisse être résolue en termes d'imports
@@ -16,13 +15,6 @@ from routers import bonjour
 api = FastAPI()
 api.include_router(bonjour.router)
 api.exception_handler(RequestValidationError)(validation_error_handler)
-
-api.add_middleware(
-    CORSMiddleware,
-    # TODO: mettre en place un proxy en local pour ne pas avoir à mentionner cet origin
-    allow_origins=["http://localhost:5173"],
-    allow_methods=["*"]
-)
 
 
 @api.get("/health")
