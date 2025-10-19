@@ -9,6 +9,7 @@ COPY Makefile .
 
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
+CMD "export PATH=/home/appuser/.local/bin:$PATH"
 
 RUN make install
 
