@@ -6,9 +6,10 @@ import { server } from "./mocks/server";
 import Bonjour from "@/components/Bonjour.tsx";
 
 import type { BonjourRequestBody, BonjourResponseBody } from "@/api/bonjour.resource.ts";
+import { BASE_API_URL } from "@/hooks/useApi.ts";
 
 describe('Bonjour', () => {
-  const bonjourApiUrl = import.meta.env.VITE_API_URL as string + '/bonjour'
+  const bonjourApiUrl = `${BASE_API_URL}/bonjour`
 
   let requestBodySpy: BonjourRequestBody
 

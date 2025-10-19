@@ -1,0 +1,15 @@
+{
+  "name": "dans-ma-ville",
+  "version": "1.0.0",
+  "description": "Have all your favorite concert hall events in one place.",
+  "scripts": {
+    "dev": "concurrently \"cd backend && make dev\" \"cd frontend && pnpm run dev\""
+  },
+  "keywords": [],
+  "author": "Paul-Elian Tabarant",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "concurrently": "9.2.0"
+  }
+}
