@@ -7,9 +7,11 @@ RUN apt-get update && apt-get install -y make && rm -rf /var/lib/apt/lists/*
 COPY dependencies.lock .
 COPY Makefile .
 
+# Add a non-root user for better security
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
-CMD "export PATH=/home/appuser/.local/bin:$PATH"
+# Allow execution of PIP commands that were installed during the build
+ENV PATH="/home/appuser/.local/bin:${PATH}"
 
 RUN make install
 
